@@ -4,7 +4,7 @@ from sklearn.datasets import load_iris
 import pandas as pd
 import plotly.express as px
 
-st.title('apowo :D')
+st.subheader('Apolonio Manuel')
 
 st.title('Practice Streamlit, Iris Dataset')
 
