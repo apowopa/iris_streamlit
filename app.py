@@ -26,15 +26,15 @@ iris_df = pd.DataFrame(iris.data, columns=iris.feature_names)
 iris_df['target'] = iris.target
 iris_df['species'] = iris_df['target'].map({0: 'setosa', 1: 'versicolor', 2: 'virginica'})
 
-st.title('Iris Dataset')
+st.subheader('Iris Dataset')
 st.dataframe(iris_df)
 
 # Estadisticas descriptivas
-st.title('Descriptive Statistics')
+st.subheader('Descriptive Statistics')
 st.write(iris_df.select_dtypes(include='float').describe())
 
 
-st.title('Scatter Plot')
+st.subheader('2D Scatter Plot')
 # Create a scatter plot
 scatter_chart = alt.Chart(iris_df).mark_circle().encode(
     x='petal length (cm)',
@@ -44,7 +44,7 @@ scatter_chart = alt.Chart(iris_df).mark_circle().encode(
 
 st.altair_chart(scatter_chart, use_container_width=True)
 
-st.title('3D Scatter Plot')
+st.subheader('3D Scatter Plot')
 
 chart_3d = px.scatter_3d(iris_df, 
                          x='sepal length (cm)', 
@@ -57,7 +57,7 @@ chart_3d = px.scatter_3d(iris_df,
 
 st.plotly_chart(chart_3d)
 
-st.title('Train a simple model')
+st.subheader('Train a simple model')
 
 X = iris_df.drop(['target', 'species'], axis=1)
 y = iris_df['target']
@@ -71,11 +71,13 @@ model.fit(X_train, y_train)
 
 # el usuario puede seleccionar un registro para que el modelo haga una predicción
 
-st.title('Make a prediction')
+st.markdown('this model was a Support Vector Classification [SVC] model')
+
+st.subheader('Make a prediction')
 
 # seleccionar un registro de test de forma interactiva
 
-index = st.selectbox('Select a test sample', range(len(X_test)))
+index = st.selectbox('Select a test sample by the index', range(len(X_test)) , index=None)
 
 if index is not None:
     # mostrar los datos del registro seleccionado
@@ -86,5 +88,12 @@ if index is not None:
     # hacer una predicción
     prediction = model.predict([selected_data])
     st.write(f'The prediction is: {iris.target_names[prediction][0]}')
+
+    st.subheader('Model Evaluation')
+    score = model.score(X_test, y_test)
+    st.write(f'The model accuracy is: {score:.2f}')
+
+    st.write('i mean is the iris dataset, the model is very simple, but it is a good example to show how to use Streamlit')
+
 
 
